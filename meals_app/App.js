@@ -8,6 +8,7 @@ import CategoryScreen from './src/screens/CategoryScreen';
 import FavoriteScreen from './src/screens/FavoriteScreen';
 import MealsDetailsScreen from './src/screens/MealsDetailsScreen';
 import MealsViewScreen from './src/screens/MealsViewScreen';
+import FavoriteContextProvider from './src/State_Managment/context/FavoriteContext';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -62,31 +63,30 @@ const App = () => {
         backgroundColor="transparent"
         barStyle={'dark-content'}
       />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            contentStyle: {backgroundColor: 'white'},
-          }}>
-          <Stack.Screen
-            name="drawer"
-            options={{
-              headerShown: false,
-            }}
-            component={DrawerNavigator}
-          />
-          <Stack.Screen name="mealsviewscreen" component={MealsViewScreen} />
-          <Stack.Screen
-            name="mealsdetailsscreen"
-            component={MealsDetailsScreen}
-            options={{
-              title: 'Meal Details',
-              headerRight: () => {
-                return <HeaderBtn />;
-              },
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <FavoriteContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              contentStyle: {backgroundColor: 'white'},
+            }}>
+            <Stack.Screen
+              name="drawer"
+              options={{
+                headerShown: false,
+              }}
+              component={DrawerNavigator}
+            />
+            <Stack.Screen name="mealsviewscreen" component={MealsViewScreen} />
+            <Stack.Screen
+              name="mealsdetailsscreen"
+              component={MealsDetailsScreen}
+              options={{
+                title: 'Meal Details',
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoriteContextProvider>
     </>
   );
 };

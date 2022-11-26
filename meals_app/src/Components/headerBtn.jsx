@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text } from 'react-native';
 
 
-const HeaderBtn = () => {
-    const icon = require("../assets/heart.png");
+const HeaderBtn = ({ icon, handler }) => {
+
+
     return (
-        <Pressable style={headerBtnStyles.cont}>
-            <Image source={icon}
+        <Pressable style={headerBtnStyles.cont}
+            onPress={handler}>
+            <Image source={{ uri: icon }}
                 style={headerBtnStyles.img} />
         </Pressable>);
 };
