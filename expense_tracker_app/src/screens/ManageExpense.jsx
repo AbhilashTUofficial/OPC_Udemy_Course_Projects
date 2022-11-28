@@ -2,6 +2,7 @@ import React, { useContext, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CustomBtn from '../Components/common/CustomBtn';
 import IconBtn from '../Components/common/IconBtn';
+import ExpenseForm from '../Components/ManageExpense/ExpenseForm';
 import { GlobalStyles } from '../constants';
 import { ExpensesContext } from '../store/expenseContext';
 
@@ -14,6 +15,10 @@ const ManageExpense = ({ route, navigation }) => {
     const isEditing = !!expenseId;
 
     const expensesCtx = useContext(ExpensesContext);
+
+    const selectedExpense = expensesCtx.expenses.find(
+        (expense) => expense.id === expenseId
+    );
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,22 +36,11 @@ const ManageExpense = ({ route, navigation }) => {
 
     };
 
-    function confirmHandler() {
+    function confirmHandler(expenseData) {
         if (isEditing) {
-            expensesCtx.updateExpense(
-                expenseId,
-                {
-                    description: 'Test 001',
-                    amount: 99.99,
-                    date: new Date('2022-11-30'),
-                }
-            );
+            expensesCtx.updateExpense(expenseId, expenseData);
         } else {
-            expensesCtx.addExpense({
-                description: 'Test 002',
-                amount: 19.99,
-                date: new Date('2022-11-29'),
-            });
+            expensesCtx.addExpense(expenseData);
         }
         navigation.goBack();
     }
@@ -54,14 +48,12 @@ const ManageExpense = ({ route, navigation }) => {
     return (
 
         <View style={manageExpenseStyles.cont}>
-            <View style={manageExpenseStyles.btns}>
-                <CustomBtn style={manageExpenseStyles.btn} mode="flat" onPress={cancelHandler}>
-                    Cancel
-                </CustomBtn>
-                <CustomBtn style={manageExpenseStyles.btn} onPress={confirmHandler}>
-                    {isEditing ? 'Update' : 'Add'}
-                </CustomBtn>
-            </View>
+            <ExpenseForm
+                onCancel={cancelHandler}
+                onSubmit={confirmHandler}
+                submitBtnLabel={isEditing ? "Update" : "Add"}
+                defalutValues={selectedExpense} />
+
             {isEditing && (
                 <View style={manageExpenseStyles.delCont}>
                     <IconBtn icon={require("../assets/icons/delete_icon.png")} size={24}
@@ -81,15 +73,7 @@ const manageExpenseStyles = StyleSheet.create({
         padding: 24,
         backgroundColor: GlobalStyles.colors.primary800,
     },
-    btns: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    btn: {
-        minWidth: 120,
-        marginHorizontal: 8,
-    },
+
     delCont: {
         borderTopColor: GlobalStyles.colors.primary200,
         alignItems: 'center',

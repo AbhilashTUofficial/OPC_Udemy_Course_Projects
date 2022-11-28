@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StatusBar, View } from 'react-native';
-import ManageExpense from './src/screens/ManagaeExpense';
+import ManageExpense from './src/screens/ManageExpense';
 import RecentExpenses from './src/screens/RecentExpenses';
 import AllExpenses from './src/screens/AllExpenses';
 import { GlobalStyles } from './src/constants';
