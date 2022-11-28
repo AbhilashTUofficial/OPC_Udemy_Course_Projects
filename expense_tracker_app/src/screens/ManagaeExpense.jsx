@@ -1,8 +1,9 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CustomBtn from '../Components/common/CustomBtn';
 import IconBtn from '../Components/common/IconBtn';
 import { GlobalStyles } from '../constants';
+import { ExpensesContext } from '../store/expenseContext';
 
 
 const ManageExpense = ({ route, navigation }) => {
@@ -12,24 +13,42 @@ const ManageExpense = ({ route, navigation }) => {
     //! !!: convert a falsey value to false and truesy value to true.
     const isEditing = !!expenseId;
 
+    const expensesCtx = useContext(ExpensesContext);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: isEditing ? "Edit Expense" : "Add Expense",
         });
     }, [navigation, isEditing]);
 
-    function deleteExpenseHandler() {
+    const deleteExpenseHandler = () => {
+        expensesCtx.deleteExpense(expenseId);
         navigation.goBack();
-    }
+    };
 
-    function cancelHandler() {
+    const cancelHandler = () => {
         navigation.goBack();
 
-    }
+    };
 
     function confirmHandler() {
+        if (isEditing) {
+            expensesCtx.updateExpense(
+                expenseId,
+                {
+                    description: 'Test 001',
+                    amount: 99.99,
+                    date: new Date('2022-11-30'),
+                }
+            );
+        } else {
+            expensesCtx.addExpense({
+                description: 'Test 002',
+                amount: 19.99,
+                date: new Date('2022-11-29'),
+            });
+        }
         navigation.goBack();
-
     }
 
     return (

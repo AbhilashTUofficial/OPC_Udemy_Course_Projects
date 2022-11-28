@@ -9,6 +9,7 @@ import AllExpenses from './src/screens/AllExpenses';
 import { GlobalStyles } from './src/constants';
 import Icon from './src/Components/common/Icon';
 import IconBtn from './src/Components/common/IconBtn';
+import ExpensesCnxtProvider from './src/store/expenseContext';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -56,8 +57,10 @@ const App = () => {
   };
 
   return (
-    <>
-      <StatusBar />
+
+    <ExpensesCnxtProvider>
+
+      <StatusBar barStyle={"light-content"} backgroundColor={GlobalStyles.colors.primary500} />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -74,7 +77,8 @@ const App = () => {
             }} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </ExpensesCnxtProvider>
+
   );
 };
 
